@@ -2,10 +2,6 @@ puts 'Welcome to the Ruby Calculator'
 
 @operators = ['+', '-', '*', '/']
 
-def valid_number_input?(input)
-  input == "0" || input.to_i != 0 ? true : false
-end
-
 def valid_number_filter(input)
   if input == "0" || input.to_i != 0 
     return input.to_i
@@ -13,11 +9,6 @@ def valid_number_filter(input)
     puts "Not A Number"
     exit(0)
   end
-end
-
-def input_error(error)
-  puts error
-  exit(0)
 end
 
 # I need to get the left hand for the equation
@@ -38,7 +29,7 @@ end
 
 # I need to get the right hand operator for the equation
 puts "What is the first Number?"
-second_num = gets.strip.to_i
+second_num = valid_number_filter(gets.chomp)
 
 # I need to calculate
 case operator
