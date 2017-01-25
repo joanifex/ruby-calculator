@@ -1,10 +1,15 @@
-def initial_calculation
+def welcome
+  puts '------------------------------'
   puts 'Welcome to the Ruby Calculator'
+  puts '------------------------------'
+end
+
+def initial_calculation 
   first_num = get_first_num
   operator = get_operator
   second_num = get_second_num
   result = operate(first_num, operator, second_num)
-  puts result
+  puts "#{first_num} #{operator} #{second_num} = #{result}"
   sequential_calculation(result)
 end
 
@@ -12,28 +17,28 @@ def sequential_calculation(first_num)
   operator = get_operator
   second_num = get_second_num
   result = operate(first_num, operator, second_num)
-  puts result
+  puts "#{first_num} #{operator} #{second_num} = #{result}"
   sequential_calculation(result)
 end
 
 def get_first_num
-  puts "What is the first Number?"
+  print "What is the first Number? "
   valid_number_filter(gets.chomp)
 end
 
 def get_operator
-puts "What is the operator?"
+print "What is the operator? "
   operator = gets.strip
   initial_calculation if operator == "clear"
   unless ['+', '-', '*', '/'].include?(operator)
     puts "Incorrect Operator: Only + - / * are supported."
-    exit(0)
+    initial_calculation
   end
   operator
 end
 
 def get_second_num
-  puts "What is the second Number?"
+  print "What is the second Number? "
   valid_number_filter(gets.chomp)
 end
 
@@ -65,4 +70,5 @@ def valid_number_filter(input)
   end
 end
 
+welcome
 initial_calculation
