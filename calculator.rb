@@ -1,3 +1,5 @@
+@history = []
+
 def welcome
   puts '------------------------------'
   puts 'Welcome to the Ruby Calculator'
@@ -13,7 +15,9 @@ def sequential_calculation(first_num)
   operator = get_operator
   second_num = get_second_num
   result = operate(first_num, operator, second_num)
-  puts "#{first_num} #{operator} #{second_num} = #{result}"
+  calculation = "#{first_num} #{operator} #{second_num} = #{result}"
+  @history << calculation
+  puts calculation
   sequential_calculation(result)
 end
 
@@ -25,7 +29,7 @@ end
 def get_operator
 print "What is the operator? "
   operator = gets.strip
-  clear_filter(operator)
+  command_filter(operator)
   unless ['+', '-', '*', '/'].include?(operator)
     puts "Incorrect Operator: Only + - / * are supported."
     initial_calculation
@@ -57,7 +61,7 @@ def operate(num1, operator, num2)
 end
 
 def valid_number_filter(input)
-  clear_filter(input)
+  command_filter(input)
   if input == "0" || input.to_i != 0 
     return input.to_i
   else
@@ -66,8 +70,14 @@ def valid_number_filter(input)
   end
 end
 
-def clear_filter(input)
-  initial_calculation if input == "clear"
+def command_filter(input)
+  case input
+    when "clear"
+      initial_calculation
+    when "history"
+      puts @history
+      initial_calculation
+  end
 end
 
 welcome
