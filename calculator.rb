@@ -62,8 +62,12 @@ end
 
 def valid_number_filter(input)
   command_filter(input)
-  if input == "0" || input.to_i != 0 
-    return input.to_i
+  if input == "0" || input.to_f != 0.0 
+    if input.to_f % 1 == 0.0  
+      return input.to_i
+    else 
+      return input.to_f
+    end
   else
     puts "Not A Number"
     initial_calculation
