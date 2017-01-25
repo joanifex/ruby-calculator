@@ -1,5 +1,3 @@
-@operators = ['+', '-', '*', '/']
-
 def calculator_interface
   puts 'Welcome to the Ruby Calculator'
   first_num = get_first_num
@@ -17,7 +15,7 @@ end
 def get_operator
 puts "What is the operator?"
   operator = gets.strip
-  unless @operators.include?(operator)
+  unless ['+', '-', '*', '/'].include?(operator)
     puts "Incorrect Operator: Only + - / * are supported."
     exit(0)
   end
