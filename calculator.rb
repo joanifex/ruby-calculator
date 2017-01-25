@@ -2,23 +2,31 @@
 
 def calculator_interface
   puts 'Welcome to the Ruby Calculator'
+  first_num = get_first_num
+  operator = get_operator
+  second_num = get_second_num
+  puts operate(first_num, operator, second_num)
+  calculator_interface
+end
 
+def get_first_num
   puts "What is the first Number?"
-  first_num = valid_number_filter(gets.chomp)
+  valid_number_filter(gets.chomp)
+end
 
-  puts "What is the operator?"
+def get_operator
+puts "What is the operator?"
   operator = gets.strip
   unless @operators.include?(operator)
     puts "Incorrect Operator: Only + - / * are supported."
     exit(0)
   end
+  operator
+end
 
+def get_second_num
   puts "What is the second Number?"
-  second_num = valid_number_filter(gets.chomp)
-
-  puts operate(first_num, operator, second_num)
-
-  calculator_interface
+  valid_number_filter(gets.chomp)
 end
 
 def operate(num1, operator, num2)
