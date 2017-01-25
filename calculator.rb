@@ -1,10 +1,19 @@
-def calculator_interface
+def initial_calculation
   puts 'Welcome to the Ruby Calculator'
   first_num = get_first_num
   operator = get_operator
   second_num = get_second_num
-  puts operate(first_num, operator, second_num)
-  calculator_interface
+  result = operate(first_num, operator, second_num)
+  puts result
+  sequential_calculation(result)
+end
+
+def sequential_calculation(first_num)
+  operator = get_operator
+  second_num = get_second_num
+  result = operate(first_num, operator, second_num)
+  puts result
+  sequential_calculation(result)
 end
 
 def get_first_num
@@ -41,13 +50,13 @@ def operate(num1, operator, num2)
 end
 
 def valid_number_filter(input)
-  calculator_interface() if input == "clear"
+  initial_calculation if input == "clear"
   if input == "0" || input.to_i != 0 
     return input.to_i
   else
     puts "Not A Number"
-    calculator_interface
+    initial_calculation
   end
 end
 
-calculator_interface
+initial_calculation
