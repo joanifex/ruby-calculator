@@ -24,6 +24,7 @@ end
 def get_operator
 puts "What is the operator?"
   operator = gets.strip
+  initial_calculation if operator == "clear"
   unless ['+', '-', '*', '/'].include?(operator)
     puts "Incorrect Operator: Only + - / * are supported."
     exit(0)
@@ -45,7 +46,12 @@ def operate(num1, operator, num2)
     when "*"
       return num1 * num2
     when "/"
-      return num1 / num2
+      if num2 = 0
+        puts "Undefined"
+        initial_calculation
+      else
+        return num1 / num2
+      end
   end
 end
 
