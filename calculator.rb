@@ -77,6 +77,9 @@ def command_filter(input)
     when "history"
       puts @history
       initial_calculation
+    when "quit"
+      puts "Goodbye"
+      exit(0)
   end
 end
 
