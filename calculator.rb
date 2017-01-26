@@ -13,7 +13,7 @@ def user_input
   if @first_calculation
     print "input calculation -> "
   else
-    print "continue calculation -> #{@last_result}  "
+    print "continue calculation -> #{@last_result} "
   end
   inputs = filter_input(check_command(gets.strip))
   calculate(inputs)
@@ -135,7 +135,7 @@ def valid_number?(number)
 end
 
 def valid_operator?(operator)
-  operators = ['+','-','*','/','(',')', 'sin(', 'cos(']
+  operators = ['+','-','*','/','**','(',')', 'sin(', 'cos(']
   operators.include?(operator)
 end
 
