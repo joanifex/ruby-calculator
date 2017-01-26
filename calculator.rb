@@ -2,6 +2,7 @@
 @last_result
 @first_calculation = true
 @memory = 0
+@operators = ['+','-','*','/','**']
 
 def welcome
   puts '------------------------------'
@@ -115,14 +116,12 @@ def filter_input(input)
     end
 
     # Check for valid calculation
-    operators = ['+','-','*','/','**']
-
     if @first_calculation
       inputs.each_with_index do |elem, index|
         if index.even?
           input_error("Invalid Calculation") unless valid_number?(elem)
         else
-          input_error("Invalid Calculation") unless operators.include?(elem)
+          input_error("Invalid Calculation") unless @operators.include?(elem)
         end
       end
     else
@@ -130,7 +129,7 @@ def filter_input(input)
         if index.odd?
           input_error("Invalid Calculation") unless valid_number?(elem)
         else
-          input_error("Invalid Calculation") unless operators.include?(elem)
+          input_error("Invalid Calculation") unless @operators.include?(elem)
         end
       end
     end
@@ -160,8 +159,7 @@ def valid_number?(number)
 end
 
 def valid_operator?(operator)
-  operators = ['+','-','*','/','**','(',')']
-  operators.include?(operator)
+  [@operators, '(', ')'].flatten.include?(operator)
 end
 
 def input_error(error)
