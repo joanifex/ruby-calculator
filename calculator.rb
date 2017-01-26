@@ -33,14 +33,19 @@ def calculate(inputs)
 end
 
 def calculate_trig(trig_function)
-  print "#{trig_function}: "
-  number = gets.chomp
-  input_error("Not A Number") unless valid_number?(number)
+  if @first_calculation
+    print "#{trig_function}: "
+    number = gets.chomp
+    input_error("Not A Number") unless valid_number?(number)
+  else
+    number = @last_result
+  end
   if trig_function == "sin"
     result = Math.sin(number.to_f)
   elsif trig_function == "cos"
     result = Math.cos(number.to_f)
   end
+  @last_result = result
   calculation = "#{trig_function}(#{number}) = #{result}"
   display_calculation(calculation)
 end
