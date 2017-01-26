@@ -1,4 +1,5 @@
 @history = []
+@last_result = nil
 
 def welcome
   puts '------------------------------'
@@ -6,86 +7,61 @@ def welcome
   puts '------------------------------'
 end
 
-def initial_calculation 
-  first_num = get_first_num
-  sequential_calculation(first_num)
+def user_input
+  print "input calculation -> "
+  input = filter_input(check_command(gets.strip))
+  calculate(input)
 end
 
-def sequential_calculation(first_num)
-  operator = get_operator
-  second_num = get_second_num
-  result = operate(first_num, operator, second_num)
-  calculation = "#{first_num} #{operator} #{second_num} = #{result}"
+def calculate(inputs)
+  result = eval(inputs.join)
+  @last_result = result
+  calculation = "#{inputs.first} #{inputs[1]} #{inputs.last} = #{result}"
   @history << calculation
   puts calculation
-  sequential_calculation(result)
+
+  user_input
 end
 
-def get_first_num
-  print "What is the first Number? "
-  valid_number_filter(gets.chomp)
-end
-
-def get_operator
-print "What is the operator? "
-  operator = gets.strip
-  command_filter(operator)
-  unless ['+', '-', '*', '/'].include?(operator)
-    puts "Incorrect Operator: Only + - / * are supported."
-    initial_calculation
-  end
-  operator
-end
-
-def get_second_num
-  print "What is the second Number? "
-  valid_number_filter(gets.chomp)
-end
-
-def operate(num1, operator, num2)
-  case operator
-    when "+"
-      return num1 + num2
-    when "-"
-      return num1 - num2
-    when "*"
-      return num1 * num2
-    when "/"
-      if num2 == 0
-        puts "Undefined"
-        initial_calculation
-      else
-        return num1 / num2
-      end
-  end
-end
-
-def valid_number_filter(input)
-  command_filter(input)
-  if input == "0" || input.to_f != 0.0 
-    if input.to_f % 1 == 0.0  
-      return input.to_i
-    else 
-      return input.to_f
-    end
-  else
-    puts "Not A Number"
-    initial_calculation
-  end
-end
-
-def command_filter(input)
+def check_command(input)
   case input
     when "clear"
-      initial_calculation
+      user_input
     when "history"
-      puts @history
-      initial_calculation
+      puts " History: #{@history}"
+      user_input
     when "quit"
       puts "Goodbye"
       exit(0)
+    else
+      input
   end
 end
 
+def filter_input(input)
+  inputs = input.split(" ")
+  # s.split("").drop(3).join("")
+  # .scan(/\d+/).first
+  # check if number, operator, or parentheses
+  # 
+
+  if inputs.size > 3
+    input_error("error1")
+  elsif inputs.first.to_i.to_s != inputs.first
+    input_error("error2")
+  elsif !['+','-','*','/'].include?(inputs[1])
+    input_error("error3")
+  elsif inputs.last.to_i.to_s != inputs.last
+    input_error("error4")
+  else
+    inputs
+  end
+end
+
+def input_error(error)
+  puts error
+  user_input
+end
+
 welcome
-initial_calculation
+user_input
