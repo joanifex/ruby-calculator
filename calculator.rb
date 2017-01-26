@@ -9,17 +9,16 @@ end
 
 def user_input
   print "input calculation -> "
-  input = filter_input(check_command(gets.strip))
-  calculate(input)
+  inputs = filter_input(check_command(gets.strip))
+  calculate(inputs)
 end
 
 def calculate(inputs)
-  result = eval(inputs.join)
+  result = eval(inputs)
   @last_result = result
-  calculation = "#{inputs.first} #{inputs[1]} #{inputs.last} = #{result}"
+  calculation = "#{inputs} = #{result}"
   @history << calculation
   puts calculation
-
   user_input
 end
 
@@ -40,24 +39,22 @@ end
 
 def filter_input(input)
   inputs = input.split(" ")
-  # s.split("").drop(3).join("")
-  # .scan(/\d+/).first
-  # check if number, operator, or parentheses
-  # 
-
-  if inputs.size > 3
-    input_error("error1")
-  elsif inputs.first.to_i.to_s != inputs.first
-    input_error("error2")
-  elsif !['+','-','*','/'].include?(inputs[1])
-    input_error("error3")
-  elsif inputs.last.to_i.to_s != inputs.last
-    input_error("error4")
-  else
-    inputs
+  inputs.each do |elem|
+    unless valid_number?(elem) || valid_operator?(elem)
+      input_error("Invalid Input")
+    end
   end
+  input
 end
 
+def valid_number?(number)
+  number.to_i.to_s == number
+end
+
+def valid_operator?(operator)
+  ['+','-','*','/','(',')'].include?(operator)
+end
+  
 def input_error(error)
   puts error
   user_input
