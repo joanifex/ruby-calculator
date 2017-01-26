@@ -1,6 +1,7 @@
 @history = []
 @last_result
 @first_calculation = true
+@memory = 0
 
 def welcome
   puts '------------------------------'
@@ -27,18 +28,27 @@ def calculate(inputs)
     calculation = "#{@last_result} #{inputs} = #{result}"
     @last_result = result
   end
-    puts calculation
-    @history << calculation
-    @first_calculation = false
-    user_input
+  display_calculation(calculation)
 end
 
-def trig(input)
-  trig_function = input
-  puts "#{trig_function}: "
+def calculate_trig(trig_function)
+  print "#{trig_function}: "
   number = gets.chomp
   input_error("Not A Number") unless valid_number?(number)
-  result = input == "sin" ? Math.sin(number) : Math.cos(number)
+  if trig_function == "sin"
+    result = Math.sin(number.to_f)
+  elsif trig_function == "cos"
+    result = Math.cos(number.to_f)
+  end
+  calculation = "#{trig_function}(#{number}) = #{result}"
+  display_calculation(calculation)
+end
+
+def display_calculation(calculation)
+  puts calculation
+  @history << calculation
+  @first_calculation = false
+  user_input
 end
 
 def check_command(input)
@@ -52,7 +62,9 @@ def check_command(input)
       @history.clear
       user_input
     when "sin", "cos"
-      trig(input)
+      calculate_trig(input)
+    when "m+"
+      memory_add
     when "quit"
       puts "Goodbye"
       exit(0)
@@ -64,6 +76,11 @@ end
 def show_history
   puts "History:"
   @history.each { |calculation| puts "  #{calculation}" }
+  user_input
+end
+
+def memory_add
+  puts "memory_add"
   user_input
 end
 
