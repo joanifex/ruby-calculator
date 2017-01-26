@@ -63,8 +63,14 @@ def check_command(input)
       user_input
     when "sin", "cos"
       calculate_trig(input)
+    when "m"
+      memory_display
     when "m+"
       memory_add
+    when "m-"
+      memory_subtract
+    when "m="
+      memory_equals
     when "quit"
       puts "Goodbye"
       exit(0)
@@ -79,19 +85,49 @@ def show_history
   user_input
 end
 
+def memory_display
+  puts @memory
+  user_input
+end
+
 def memory_add
-  puts "memory_add"
+  @memory += @last_result
+  user_input
+end
+
+def memory_subtract
+  @memory -= @last_result
+  user_input
+end
+
+def memory_equals
+  @memory = @last_result
   user_input
 end
 
 def filter_input(input)
   inputs = input.split(" ")
-  inputs.each do |elem|
-    unless valid_number?(elem) || valid_operator?(elem)
+  inputs.each_with_index do |elem, index|
+
+    # Check for valid input
+    unless valid_number?(elem) || valid_operator?(elem) || "m"
       input_error("Invalid Input")
     end
+
+    # Check for zero division
+    if inputs[index -1] == "/"
+      if elem.to_i == 0 || (elem == "m" && @memory == 0)
+        input_error("Undefined")
+      end
+    end
+
+    # Substitute memory
+    if elem == "m"
+      inputs[index] = @memory
+    end
+
   end
-  input
+  inputs.join(" ")
 end
 
 def valid_number?(number)
