@@ -110,8 +110,29 @@ def filter_input(input)
   inputs.each_with_index do |elem, index|
 
     # Check for valid input
-    unless valid_number?(elem) || valid_operator?(elem) || "m"
+    unless valid_number?(elem) || valid_operator?(elem) || elem == "m"
       input_error("Invalid Input")
+    end
+
+    # Check for valid calculation
+    operators = ['+','-','*','/','**']
+
+    if @first_calculation
+      inputs.each_with_index do |elem, index|
+        if index.even?
+          input_error("Invalid Calculation") unless valid_number?(elem)
+        else
+          input_error("Invalid Calculation") unless operators.include?(elem)
+        end
+      end
+    else
+      inputs.each_with_index do |elem, index|
+        if index.odd?
+          input_error("Invalid Calculation") unless valid_number?(elem)
+        else
+          input_error("Invalid Calculation") unless operators.include?(elem)
+        end
+      end
     end
 
     # Check for zero division
@@ -131,11 +152,15 @@ def filter_input(input)
 end
 
 def valid_number?(number)
-  number.to_f % 1.0 == 0 ? number.to_i.to_s == number : number.to_f.to_s == number
+  if number.to_f % 1.0 == 0
+    number.to_i.to_s == number
+  else
+    number.to_f.to_s == number
+  end
 end
 
 def valid_operator?(operator)
-  operators = ['+','-','*','/','**','(',')', 'sin(', 'cos(']
+  operators = ['+','-','*','/','**','(',')']
   operators.include?(operator)
 end
 
