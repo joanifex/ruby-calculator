@@ -1,5 +1,6 @@
 @history = []
-@last_result = nil
+@last_result
+@first_calculation = true
 
 def welcome
   puts '------------------------------'
@@ -8,33 +9,62 @@ def welcome
 end
 
 def user_input
-  print "input calculation -> "
+  if @first_calculation
+    print "input calculation -> "
+  else
+    print "continue calculation -> #{@last_result}  "
+  end
   inputs = filter_input(check_command(gets.strip))
   calculate(inputs)
 end
 
 def calculate(inputs)
-  result = eval(inputs)
-  @last_result = result
-  calculation = "#{inputs} = #{result}"
-  @history << calculation
-  puts calculation
-  user_input
+  if @first_calculation
+    @last_result = eval(inputs)
+    calculation = "#{inputs} = #{@last_result}"
+  else
+    result = eval("#{@last_result} #{inputs}")
+    calculation = "#{@last_result} #{inputs} = #{result}"
+    @last_result = result
+  end
+    puts calculation
+    @history << calculation
+    @first_calculation = false
+    user_input
+end
+
+def trig(input)
+  trig_function = input
+  puts "#{trig_function}: "
+  number = gets.chomp
+  input_error("Not A Number") unless valid_number?(number)
+  result = input == "sin" ? Math.sin(number) : Math.cos(number)
 end
 
 def check_command(input)
   case input
     when "clear"
+      @first_calculation = true
       user_input
     when "history"
-      puts " History: #{@history}"
+      show_history
+    when "clear history"
+      @history.clear
       user_input
+    when "sin", "cos"
+      trig(input)
     when "quit"
       puts "Goodbye"
       exit(0)
     else
       input
   end
+end
+
+def show_history
+  puts "History:"
+  @history.each { |calculation| puts "  #{calculation}" }
+  user_input
 end
 
 def filter_input(input)
@@ -48,13 +78,14 @@ def filter_input(input)
 end
 
 def valid_number?(number)
-  number.to_i.to_s == number
+  number.to_f % 1.0 == 0 ? number.to_i.to_s == number : number.to_f.to_s == number
 end
 
 def valid_operator?(operator)
-  ['+','-','*','/','(',')'].include?(operator)
+  operators = ['+','-','*','/','(',')', 'sin(', 'cos(']
+  operators.include?(operator)
 end
-  
+
 def input_error(error)
   puts error
   user_input
