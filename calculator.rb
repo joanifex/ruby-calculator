@@ -36,7 +36,7 @@ def calculate_trig(trig_function)
   if @first_calculation
     print "#{trig_function}: "
     number = gets.chomp
-    input_error("Not A Number") unless valid_number?(number)
+    input_error("Invalid Input") unless valid_number?(number)
   else
     number = @last_result
   end
@@ -125,20 +125,16 @@ def filter_input(input)
 
     # Check for valid calculation
     if @first_calculation
-      inputs.each_with_index do |elem, index|
-        if index.even?
-          input_error("Invalid Calculation") unless valid_number?(elem)
-        else
-          input_error("Invalid Calculation") unless @operators.include?(elem)
-        end
+      if index.even?
+        input_error("Invalid Calculation") unless valid_number?(elem)
+      else
+        input_error("Invalid Calculation") unless @operators.include?(elem)
       end
     else
-      inputs.each_with_index do |elem, index|
-        if index.odd?
-          input_error("Invalid Calculation") unless valid_number?(elem)
-        else
-          input_error("Invalid Calculation") unless @operators.include?(elem)
-        end
+      if index.odd?
+        input_error("Invalid Calculation") unless valid_number?(elem)
+      else
+        input_error("Invalid Calculation") unless @operators.include?(elem)
       end
     end
     input_error("Invalid Calculation") unless valid_number?(inputs.last)
