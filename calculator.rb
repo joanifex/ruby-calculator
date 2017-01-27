@@ -5,16 +5,16 @@
 @operators = ['+','-','*','/','**']
 
 def welcome
-  puts '------------------------------'
-  puts 'Welcome to the Ruby Calculator'
-  puts '------------------------------'
+  puts '----------------'
+  puts 'Ruby Calculator'
+  puts '----------------'
 end
 
 def user_input
   if @first_calculation
-    print "input calculation -> "
+    print " -> "
   else
-    print "continue calculation -> #{@last_result} "
+    print " -> #{@last_result} "
   end
   inputs = filter_input(check_command(gets.strip))
   calculate(inputs)
@@ -40,11 +40,14 @@ def calculate_trig(trig_function)
   else
     number = @last_result
   end
-  if trig_function == "sin"
-    result = Math.sin(number.to_f)
-  elsif trig_function == "cos"
-    result = Math.cos(number.to_f)
+
+  case trig_function
+    when 'sin'
+      result = Math.sin(number.to_f)
+    when 'cos'
+      result = Math.cos(number.to_f)
   end
+
   @last_result = result
   calculation = "#{trig_function}(#{number}) = #{result}"
   display_calculation(calculation)
@@ -67,7 +70,7 @@ def check_command(input)
     when "clear history", "ch"
       @history.clear
       user_input
-    when "sin", "cos", "tan"
+    when "sin", "cos"
       calculate_trig(input)
     when "m"
       memory_display
