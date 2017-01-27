@@ -67,7 +67,7 @@ def check_command(input)
     when "clear history", "ch"
       @history.clear
       user_input
-    when "sin", "cos"
+    when "sin", "cos", "tan"
       calculate_trig(input)
     when "m"
       memory_display
@@ -138,6 +138,7 @@ def filter_input(input)
         end
       end
     end
+    input_error("Invalid Calculation") unless valid_number?(inputs.last)
 
     # Check for zero division
     if inputs[index -1] == "/"
