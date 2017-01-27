@@ -59,12 +59,12 @@ end
 
 def check_command(input)
   case input
-    when "clear"
+    when "clear", "c"
       @first_calculation = true
       user_input
-    when "history"
+    when "history", "h"
       show_history
-    when "clear history"
+    when "clear history", "ch"
       @history.clear
       user_input
     when "sin", "cos"
